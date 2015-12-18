@@ -1,17 +1,23 @@
 django-redis-sessions
 =======================
-Redis database backend for your sessions
+Redis database backend for your sessions; with support for Redis cluster
 
 .. image:: https://travis-ci.org/martinrusev/django-redis-sessions.svg?branch=master
     :target: https://travis-ci.org/martinrusev/django-redis-sessions
+
+
 
 ------------
 Installation
 ------------
 
-1. Run ``pip install django-redis-sessions`` or alternatively  download the tarball and run ``python setup.py install``,
+1. Install deps
+clone from https://github.com/Grokzen/redis-py-cluster
+and run ``python setup.py install``
 
-For Django < 1.4 run ``pip install django-redis-sessions==0.3``
+2. Install package
+Run ``python setup.py install``,
+
 
 2. Set ``redis_sessions.session`` as your session engine, like so::
 
@@ -19,21 +25,19 @@ For Django < 1.4 run ``pip install django-redis-sessions==0.3``
 
 3. Optional settings::
 
-    SESSION_REDIS_HOST = 'localhost'
-    SESSION_REDIS_PORT = 6379
-    SESSION_REDIS_DB = 0
-    SESSION_REDIS_PASSWORD = 'password'
-    SESSION_REDIS_PREFIX = 'session'
+    # This defines the nodes in the redis cluster
+    SESSION_REDIS_NODES =  [{"host": "127.0.0.1", "port": "30001"},
+                                {"host": "127.0.0.1", "port": "30002"},
+                                {"host": "127.0.0.1", "port": "30003"},
+                                {"host": "127.0.0.1", "port": "30004"},
+                                {"host": "127.0.0.1", "port": "30005"},
+                                {"host": "127.0.0.1", "port": "30006"},
+                                ]
 
-    # If you prefer domain socket connection, you can just add this line instead of SESSION_REDIS_HOST and SESSION_REDIS_PORT.
 
-    SESSION_REDIS_UNIX_DOMAIN_SOCKET_PATH = '/var/run/redis/redis.sock'
 
-4. That's it::
 
-See: `django-redis-sessions <http://pypi.python.org/pypi/django-redis-sessions>`_ on pypi
-
-5. Tests::
+4. Tests::
 
     $ pip install django nose redis
     # Make sure you have redis running on localhost:6379
