@@ -1,4 +1,4 @@
-import redis
+from rediscluster import StrictRedisCluster
 
 try:
     from django.utils.encoding import force_unicode
@@ -9,34 +9,8 @@ from redis_sessions import settings
 
 
 # Avoid new redis connection on each request
-
-if settings.SESSION_REDIS_SENTINEL_LIST is not None:
-    from redis.sentinel import Sentinel
-
-    redis_server = Sentinel(settings.SESSION_REDIS_SENTINEL_LIST, socket_timeout=0.1) \
-                    .master_for(settings.SESSION_REDIS_SENTINEL_MASTER_ALIAS, 
-                                socket_timeout=0.1, 
-                                db=getattr(settings, 'SESSION_REDIS_DB', 0))
-
-elif settings.SESSION_REDIS_URL is not None:
-
-    redis_server = redis.StrictRedis.from_url(settings.SESSION_REDIS_URL)
-elif settings.SESSION_REDIS_UNIX_DOMAIN_SOCKET_PATH is None:
-    
-    redis_server = redis.StrictRedis(
-        host=settings.SESSION_REDIS_HOST,
-        port=settings.SESSION_REDIS_PORT,
-        db=settings.SESSION_REDIS_DB,
-        password=settings.SESSION_REDIS_PASSWORD
-    )
-else:
-
-    redis_server = redis.StrictRedis(
-        unix_socket_path=settings.SESSION_REDIS_UNIX_DOMAIN_SOCKET_PATH,
-        db=settings.SESSION_REDIS_DB,
-        password=settings.SESSION_REDIS_PASSWORD,
-    )
-
+# StrictCluster internally uses a pool
+redis_server = StrictRedisCluster(startup_nodes=settings.SESSION_REDIS_NODES, decode_responses=True)
 
 class SessionStore(SessionBase):
     """
@@ -78,21 +52,13 @@ class SessionStore(SessionBase):
         if must_create and self.exists(self._get_or_create_session_key()):
             raise CreateError
         data = self.encode(self._get_session(no_load=must_create))
-        if redis.VERSION[0] >= 2:
-            self.server.setex(
+
+        self.server.setex(
                 self.get_real_stored_key(self._get_or_create_session_key()),
                 self.get_expiry_age(),
                 data
-            )
-        else:
-            self.server.set(
-                self.get_real_stored_key(self._get_or_create_session_key()),
-                data
-            )
-            self.server.expire(
-                self.get_real_stored_key(self._get_or_create_session_key()),
-                self.get_expiry_age()
-            )
+        )
+
 
     def delete(self, session_key=None):
         if session_key is None:

@@ -69,6 +69,7 @@ def test_save_and_load():
     session_data = redis_session.load()
     eq_(session_data.get('item_test'), 8)
 
+"""
 def test_with_redis_url_config():
     settings.SESSION_REDIS_URL = 'redis://localhost'
 
@@ -107,6 +108,7 @@ def test_with_unix_url_config():
     eq_(host, 'localhost')
     eq_(port, 6379)
     eq_(db, 0)
+"""
 
 # def test_load():
 #     redis_session.set_expiry(60)

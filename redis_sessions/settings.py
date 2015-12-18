@@ -11,10 +11,11 @@ SESSION_REDIS_UNIX_DOMAIN_SOCKET_PATH = getattr(
 )
 SESSION_REDIS_URL = getattr(settings, 'SESSION_REDIS_URL', None)
 
-# should be on the format [(host, port), (host, port), (host, port)]
-SESSION_REDIS_SENTINEL_LIST = getattr(
-	settings, 'SESSION_REDIS_SENTINEL_LIST', None
-)
-SESSION_REDIS_SENTINEL_MASTER_ALIAS = getattr(
-	settings, 'SESSION_REDIS_SENTINEL_MASTER_ALIAS', None
-)
+SESSION_REDIS_NODES =  getattr(settings, 'SESSION_REDIS_NODES',
+                               [{"host": "127.0.0.1", "port": "30001"},
+                                {"host": "127.0.0.1", "port": "30002"},
+                                {"host": "127.0.0.1", "port": "30003"},
+                                {"host": "127.0.0.1", "port": "30004"},
+                                {"host": "127.0.0.1", "port": "30005"},
+                                {"host": "127.0.0.1", "port": "30006"},
+                                ])
