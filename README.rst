@@ -11,19 +11,18 @@ Redis database backend for your sessions; with support for Redis cluster
 Installation
 ------------
 
-1. Install deps
-clone from https://github.com/Grokzen/redis-py-cluster
+1. Install deps::
+Clone from https://github.com/Grokzen/redis-py-cluster
 and run ``python setup.py install``
 
-2. Install package
+2. Install package::
 Run ``python setup.py install``,
 
-
-2. Set ``redis_sessions.session`` as your session engine, like so::
+3. Set ``redis_sessions.session`` as your session engine, like so::
 
     SESSION_ENGINE = 'redis_sessions.session'
 
-3. Optional settings::
+4. Optional settings::
 
     # This defines the nodes in the redis cluster
     SESSION_REDIS_NODES =  [{"host": "127.0.0.1", "port": "30001"},
@@ -37,7 +36,7 @@ Run ``python setup.py install``,
 
 
 
-4. Tests::
+5. Tests::
 
     $ pip install django nose redis
     # Make sure you have redis running on localhost:6379
