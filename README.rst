@@ -22,7 +22,7 @@ Installation
 
 3. Set ``redis_sessions.session`` as your session engine, like so::
 
-    SESSION_ENGINE = 'redis_sessions.session'
+    SESSION_ENGINE = 'cluster_redis_sessions.session'
 
 4. Optional settings::
 

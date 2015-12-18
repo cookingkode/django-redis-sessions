@@ -1,5 +1,5 @@
-from redis_sessions.session import SessionStore
-from redis_sessions import settings
+from cluster_redis_sessions.session import SessionStore
+from cluster_redis_sessions import settings
 import time
 from nose.tools import eq_, assert_false
 

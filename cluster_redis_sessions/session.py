@@ -5,7 +5,7 @@ try:
 except ImportError:  # Python 3.*
     from django.utils.encoding import force_text as force_unicode
 from django.contrib.sessions.backends.base import SessionBase, CreateError
-from redis_sessions import settings
+from cluster_redis_sessions import settings
 
 
 # Avoid new redis connection on each request
