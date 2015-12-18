@@ -12,11 +12,13 @@ Installation
 ------------
 
 1. Install deps::
-Clone from https://github.com/Grokzen/redis-py-cluster
-and run ``python setup.py install``
+
+    Clone from https://github.com/Grokzen/redis-py-cluster
+    and run ``python setup.py install``
 
 2. Install package::
-Run ``python setup.py install``,
+
+    Run ``python setup.py install``
 
 3. Set ``redis_sessions.session`` as your session engine, like so::
 
